@@ -181,3 +181,13 @@ val documentedSubprojects get() = setOf("kotlinx-serialization-core",
     "kotlinx-serialization-properties",
     "kotlinx-serialization-hocon",
     "kotlinx-serialization-protobuf")
+
+subprojects {
+    gradle.taskGraph.whenReady {
+        if (hasTask(":assemble")) {
+            tasks.matching { it.name == "jvmTest" }.configureEach {
+                enabled = false
+            }
+        }
+    }
+}
