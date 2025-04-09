@@ -191,3 +191,16 @@ subprojects {
         }
     }
 }
+
+subprojects {
+  afterEvaluate {
+      tasks.findByName("jvmTest")?.let { task ->
+        (task as Test).apply {
+          binaryResultsDirectory.set(layout.buildDirectory.dir("test-results/test").get().asFile)
+          reports.html.outputLocation.set(layout.buildDirectory.dir("reports/tests/test").get().asFile)
+          reports.junitXml.outputLocation.set(layout.buildDirectory.dir("test-results/test").get().asFile)
+        }
+      }
+  }
+}
+
